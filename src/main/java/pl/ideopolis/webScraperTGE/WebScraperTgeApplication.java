@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class}) //todo implement security
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @EnableScheduling
 public class WebScraperTgeApplication {
 

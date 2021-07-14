@@ -1,40 +1,45 @@
 package pl.ideopolis.webScraperTGE.scheduler;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.config.ScheduledTask;
 import org.springframework.stereotype.Component;
-import pl.ideopolis.webScraperTGE.daneSynoptyczne.DaneSynoptyczneService;
-import pl.ideopolis.webScraperTGE.utils.JsonUtil;
+import pl.ideopolis.webScraperTGE.daneSynoptyczne.SynopticDataService;
+import pl.ideopolis.webScraperTGE.daneSynoptyczne.dataModel.SynopticDataDTO;
+import pl.ideopolis.webScraperTGE.daneSynoptyczne.dataModel.SynopticDataWrapper;
+import pl.ideopolis.webScraperTGE.utils.ConvertDate;
 import pl.ideopolis.webScraperTGE.utils.SaveToFile;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import pl.ideopolis.webScraperTGE.utils.SystemProperties;
+import pl.ideopolis.webScraperTGE.utils.jsonUtils.Json;
 
 @Component
 public class Scheduler {
 
     private static final int SECOND = 1000;
-    private static final int MINUTE = 60*SECOND;
-    private static final int HOUR = 60*MINUTE;
+    private static final int MINUTE = 60 * SECOND;
+    private static final int HOUR = 60 * MINUTE;
+    private static final int DAY = 24 * HOUR;
 
-    private static final Logger log = LoggerFactory.getLogger(ScheduledTask.class);
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-    private static final DaneSynoptyczneService daneSynoptyczneService = new DaneSynoptyczneService();
+    private static final SynopticDataService SYNOPTIC_DATA_SERVICE = new SynopticDataService();
 
-    @Scheduled(fixedRate = 20*MINUTE)
-    public void downloadSynopticData(){
-        log.info("The time is now {}", dateFormat.format(new Date()));
-        String jsonAsString = daneSynoptyczneService.getPostPlainJSON();
 
-        JsonUtil jsonUtil = new JsonUtil(jsonAsString);
-        SaveToFile saveToFile = new SaveToFile();
+    @Scheduled(fixedRate = 20 * MINUTE)
+    public void schedule() throws JsonProcessingException {
+        final SynopticDataWrapper wrapper = downloadSynopticData();
+        wrapper.jsonAsStringToDTOs();
+        wrapper.dtosToJson();
 
-        String fileName;
-        fileName = jsonUtil.getValue("data_pomiaru")+" "+jsonUtil.getValue("godzina_pomiaru")+".txt";
-        System.out.println("file name: "+fileName);
-        saveToFile.saveToFile(fileName, "D:\\Dane synoptyczne\\", jsonUtil.asText());
+        final String fileName = generateFileName(wrapper.getDtos()[0], ".txt");
+
+        SaveToFile.saveToFile(fileName, SystemProperties.getPath(), Json.prettyPrint(wrapper.getJson()));
+        System.out.println("file name: " + fileName);
+    }
+
+    private SynopticDataWrapper downloadSynopticData() {
+        return SYNOPTIC_DATA_SERVICE.requestSynopticData();
+    }
+
+    private String generateFileName(SynopticDataDTO dto, String fileExtension){
+        return ConvertDate.convertDateToString(dto.getDataPomiaru(),"yyyy-MM-dd") + " " + dto.getGodzinaPomiaru() + fileExtension;
     }
 
 }

@@ -6,9 +6,9 @@ import java.io.IOException;
 
 public class SaveToFile {
 
-    private BufferedWriter bw;
+    private static BufferedWriter bw;
 
-    public void saveToFile (String fileName, String path, String text){
+    public static void saveToFile (String fileName, String path, String text){
         try {
             bw = new BufferedWriter(new FileWriter(path+fileName));
             bw.write(text);
