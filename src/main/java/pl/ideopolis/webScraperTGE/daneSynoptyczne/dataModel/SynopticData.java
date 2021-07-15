@@ -1,5 +1,7 @@
 package pl.ideopolis.webScraperTGE.daneSynoptyczne.dataModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -35,7 +37,10 @@ public class SynopticData {
     @Column(name = "cisnienie")
     private BigDecimal cisnienie;
 
+    private final static Logger log = LoggerFactory.getLogger(SynopticData.class);
+
     public SynopticData() {
+        log.trace("No parameter constructor.");
     }
 
 

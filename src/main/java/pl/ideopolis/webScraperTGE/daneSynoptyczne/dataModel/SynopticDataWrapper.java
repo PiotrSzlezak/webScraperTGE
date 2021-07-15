@@ -3,6 +3,8 @@ package pl.ideopolis.webScraperTGE.daneSynoptyczne.dataModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.ideopolis.webScraperTGE.utils.jsonUtils.Json;
 
 public class SynopticDataWrapper {
@@ -11,7 +13,12 @@ public class SynopticDataWrapper {
     private SynopticDataDTO[] dtos;
     private JsonNode json;
 
+    private final static Logger log = LoggerFactory.getLogger(SynopticDataWrapper.class);
+
+
     public SynopticDataWrapper() {
+        log.trace("No parameter constructor.");
+
     }
 
     public String getJsonAsString() {
@@ -39,19 +46,14 @@ public class SynopticDataWrapper {
     }
 
     public void jsonAsStringToDTOs() throws JsonProcessingException {
-        System.out.println("  jsonAsStringToDTOs method");
+        log.trace("jsonAsStringToDTOs method.");
         ObjectMapper mapper = new ObjectMapper();
         this.dtos = mapper.readValue(this.jsonAsString, SynopticDataDTO[].class);
-
-//        int counter = 1;
-//        for (SynopticDataDTO dto : dtos) {
-//            System.out.println("DTO " + counter);
-//            System.out.println(dto);
-//            counter++;
-//        }
+        log.trace("jsonAsStringToDTOs method mapped " + dtos.length + " DTOs");
     }
 
-    public void dtosToJson(){
+    public void dtosToJson() {
+        log.trace("dtosToJson method.");
         json = Json.toJson(dtos);
     }
 

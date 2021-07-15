@@ -3,6 +3,8 @@ package pl.ideopolis.webScraperTGE.daneSynoptyczne.dataModel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.ideopolis.webScraperTGE.utils.BigDecimalConvertion;
 import pl.ideopolis.webScraperTGE.utils.ConvertDate;
@@ -37,10 +39,14 @@ public class SynopticDataDTO {
     @JsonProperty("cisnienie")
     private BigDecimal cisnienie;
 
+    private final static Logger log = LoggerFactory.getLogger(SynopticDataDTO.class);
+
     public SynopticDataDTO() {
+        log.trace("No parameter constructor.");
     }
 
-    public SynopticDataDTO(JsonNode node){
+    public SynopticDataDTO(JsonNode node) {
+        log.trace("JsonNode constructor start.");
         this.idStacji = Integer.parseInt(node.path("id_stacji").asText());
         this.stacja = node.path("stacja").asText();
         final Optional<LocalDate> data_pomiaru = ConvertDate.convertStringToLocalDate(node.path("data_pomiaru").asText(), "yyyy-MM-dd");
@@ -58,6 +64,7 @@ public class SynopticDataDTO {
         suma_opadu.ifPresent(bigDecimal -> this.sumaOpadu = bigDecimal);
         final Optional<BigDecimal> cisnienie = BigDecimalConvertion.stringToBigDecimal(node.path("cisnienie").asText());
         cisnienie.ifPresent(bigDecimal -> this.cisnienie = bigDecimal);
+        log.trace("JsonNode constructor end.");
     }
 
 
@@ -150,6 +157,7 @@ public class SynopticDataDTO {
 
     @Override
     public String toString() {
+        log.trace("toString method.");
         StringBuilder sb = new StringBuilder();
         sb.append("id_stacji : ").append(idStacji)
                 .append("\nstacja : ").append(stacja)
@@ -164,8 +172,10 @@ public class SynopticDataDTO {
         return sb.toString();
     }
 
-    private String bigDecimalToPlainStringIfNotNull(BigDecimal bigDecimal){
-        if (Objects.isNull(bigDecimal)){
+    private String bigDecimalToPlainStringIfNotNull(BigDecimal bigDecimal) {
+        log.trace("bigDecimalToPlainStringIfNotNull method.");
+        log.trace("BigDecimal = " + bigDecimal);
+        if (Objects.isNull(bigDecimal)) {
             return null;
         }
         return bigDecimal.toPlainString();

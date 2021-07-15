@@ -1,5 +1,8 @@
 package pl.ideopolis.webScraperTGE.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Objects;
@@ -7,8 +10,13 @@ import java.util.Optional;
 
 public class BigDecimalConvertion {
 
+    private final static Logger log = LoggerFactory.getLogger(BigDecimalConvertion.class);
+
     public static Optional<BigDecimal> stringToBigDecimal(String string) {
-        if (!checkIfStringContainsAtLeastOneDigit(string)){
+        log.trace("stringToBigDecimal method.");
+        log.trace("string = " + string);
+        if (!checkIfStringContainsAtLeastOneDigit(string)) {
+            log.trace("String does not contain any digit.");
             return Optional.empty();
         }
         BigDecimal bigDecimal;
@@ -31,12 +39,16 @@ public class BigDecimalConvertion {
     }
 
     public static boolean checkIfStringContainsAtLeastOneDigit(String numberAsString) {
+        log.trace("checkIfStringContainsAtLeastOneDigit method.");
         Objects.requireNonNull(numberAsString);
         return numberAsString.matches(".*\\d.*");
     }
 
-    public static String bigDecimalToPlainStringIfNotNull(BigDecimal bigDecimal){
-        if (Objects.isNull(bigDecimal)){
+    public static String bigDecimalToPlainStringIfNotNull(BigDecimal bigDecimal) {
+        log.trace("bigDecimalToPlainStringIfNotNull method.");
+        log.trace("BigDecimal = " + bigDecimal);
+        if (Objects.isNull(bigDecimal)) {
+            log.trace("BigDecimal = null.");
             return null;
         }
         DecimalFormat formatter = new DecimalFormat("#0.00#");

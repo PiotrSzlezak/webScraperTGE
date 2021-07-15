@@ -1,6 +1,8 @@
 package pl.ideopolis.webScraperTGE.scheduler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.ideopolis.webScraperTGE.daneSynoptyczne.SynopticDataService;
@@ -20,10 +22,11 @@ public class Scheduler {
     private static final int DAY = 24 * HOUR;
 
     private static final SynopticDataService SYNOPTIC_DATA_SERVICE = new SynopticDataService();
-
+    private final static Logger log = LoggerFactory.getLogger(Scheduler.class);
 
     @Scheduled(fixedRate = 20 * MINUTE)
     public void schedule() throws JsonProcessingException {
+        log.trace("schedule method.");
         final SynopticDataWrapper wrapper = downloadSynopticData();
         wrapper.jsonAsStringToDTOs();
         wrapper.dtosToJson();
@@ -35,10 +38,12 @@ public class Scheduler {
     }
 
     private SynopticDataWrapper downloadSynopticData() {
+        log.trace("downloadSynopticData method.");
         return SYNOPTIC_DATA_SERVICE.requestSynopticData();
     }
 
     private String generateFileName(SynopticDataDTO dto, String fileExtension){
+        log.trace("generateFileName method.");
         return ConvertDate.convertDateToString(dto.getDataPomiaru(),"yyyy-MM-dd") + " " + dto.getGodzinaPomiaru() + fileExtension;
     }
 
