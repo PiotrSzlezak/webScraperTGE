@@ -18,7 +18,7 @@ public class SaveToFile {
         log.trace("saveToFile method.");
         init(path);
         checkPath();
-        if(!issue) {
+        if (!issue) {
             try {
                 BufferedWriter bw = new BufferedWriter(new FileWriter(path + fileName));
                 bw.write(text);
@@ -26,44 +26,44 @@ public class SaveToFile {
                 bw.close();
                 log.info("File {} saved successfully at {}", fileName, f.getAbsolutePath());
             } catch (IOException e) {
-                log.error("Saving file was not successful. \n{}",e.getMessage());
+                log.error("Saving file {} in path {} was not successful. \n{}", fileName, path, e.getMessage());
             }
         } else {
-            log.error("File could not be saved.");
+            log.error("File {}{} could not be saved.", path, fileName);
         }
     }
 
-    private static void init(String path){
+    private static void init(String path) {
         f = new File(path);
         issue = false;
     }
 
-    private static void checkPath(){
-        if(!checkIfFolderExists()){
+    private static void checkPath() {
+        if (!checkIfFolderExists()) {
             createFolder();
         }
         checkIfLocationIsAccessible();
     }
 
-    private static boolean checkIfFolderExists(){
+    private static boolean checkIfFolderExists() {
         return f.exists();
     }
 
-    private static void checkIfLocationIsAccessible(){
-        if (f.canWrite()){
-            log.trace("File path can be accessed.");
+    private static void checkIfLocationIsAccessible() {
+        if (f.canWrite()) {
+            log.trace("File path {} can be accessed.", f.getAbsolutePath());
         } else {
             issue = true;
-            log.error("File path is inaccessible.");
+            log.error("File path {} is inaccessible.", f.getAbsolutePath());
         }
     }
 
-    private static void createFolder(){
-        if (f.mkdir()){
-            log.trace("Folder created successfully.");
+    private static void createFolder() {
+        if (f.mkdir()) {
+            log.trace("Folder {} created successfully.", f.getAbsolutePath());
         } else {
             issue = true;
-            log.error("Folder could not be created. ");
+            log.error("Folder {} could not be created.", f.getAbsolutePath());
         }
     }
 
