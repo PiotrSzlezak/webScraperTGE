@@ -9,16 +9,14 @@ import pl.ideopolis.webScraperTGE.utils.jsonUtils.Json;
 
 public class SynopticDataWrapper {
 
+    private final static Logger log = LoggerFactory.getLogger(SynopticDataWrapper.class);
+
     private String jsonAsString;
     private SynopticDataDTO[] dtos;
     private JsonNode json;
 
-    private final static Logger log = LoggerFactory.getLogger(SynopticDataWrapper.class);
-
-
     public SynopticDataWrapper() {
         log.trace("No parameter constructor.");
-
     }
 
     public String getJsonAsString() {
@@ -49,7 +47,7 @@ public class SynopticDataWrapper {
         log.trace("jsonAsStringToDTOs method.");
         ObjectMapper mapper = new ObjectMapper();
         this.dtos = mapper.readValue(this.jsonAsString, SynopticDataDTO[].class);
-        log.trace("jsonAsStringToDTOs method mapped " + dtos.length + " DTOs");
+        log.trace("jsonAsStringToDTOs method mapped {} DTOs", dtos.length);
     }
 
     public void dtosToJson() {

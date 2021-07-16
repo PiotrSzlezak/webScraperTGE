@@ -12,6 +12,8 @@ import java.time.LocalDate;
 @Table(name = "tge_rdb")
 public class SynopticData {
 
+    private final static Logger log = LoggerFactory.getLogger(SynopticData.class);
+
     @Id
     @GeneratedValue
     private Long id;
@@ -36,8 +38,6 @@ public class SynopticData {
     private BigDecimal sumaOpadu;
     @Column(name = "cisnienie")
     private BigDecimal cisnienie;
-
-    private final static Logger log = LoggerFactory.getLogger(SynopticData.class);
 
     public SynopticData() {
         log.trace("No parameter constructor.");

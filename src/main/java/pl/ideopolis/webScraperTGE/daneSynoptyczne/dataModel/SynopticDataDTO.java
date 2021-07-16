@@ -16,6 +16,8 @@ import java.util.Optional;
 
 public class SynopticDataDTO {
 
+    private final static Logger log = LoggerFactory.getLogger(SynopticDataDTO.class);
+
     @JsonProperty("id_stacji")
     private int idStacji;
     @JsonProperty("stacja")
@@ -39,14 +41,12 @@ public class SynopticDataDTO {
     @JsonProperty("cisnienie")
     private BigDecimal cisnienie;
 
-    private final static Logger log = LoggerFactory.getLogger(SynopticDataDTO.class);
-
     public SynopticDataDTO() {
         log.trace("No parameter constructor.");
     }
 
     public SynopticDataDTO(JsonNode node) {
-        log.trace("JsonNode constructor start.");
+        log.trace("JsonNode constructor.");
         this.idStacji = Integer.parseInt(node.path("id_stacji").asText());
         this.stacja = node.path("stacja").asText();
         final Optional<LocalDate> data_pomiaru = ConvertDate.convertStringToLocalDate(node.path("data_pomiaru").asText(), "yyyy-MM-dd");
@@ -64,7 +64,6 @@ public class SynopticDataDTO {
         suma_opadu.ifPresent(bigDecimal -> this.sumaOpadu = bigDecimal);
         final Optional<BigDecimal> cisnienie = BigDecimalConvertion.stringToBigDecimal(node.path("cisnienie").asText());
         cisnienie.ifPresent(bigDecimal -> this.cisnienie = bigDecimal);
-        log.trace("JsonNode constructor end.");
     }
 
 
@@ -173,9 +172,9 @@ public class SynopticDataDTO {
     }
 
     private String bigDecimalToPlainStringIfNotNull(BigDecimal bigDecimal) {
-        log.trace("bigDecimalToPlainStringIfNotNull method.");
-        log.trace("BigDecimal = " + bigDecimal);
+        log.trace("bigDecimalToPlainStringIfNotNull method. bigDecimal = {}", bigDecimal);
         if (Objects.isNull(bigDecimal)) {
+            log.trace("BigDecimal = null");
             return null;
         }
         return bigDecimal.toPlainString();

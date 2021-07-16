@@ -13,8 +13,7 @@ public class BigDecimalConvertion {
     private final static Logger log = LoggerFactory.getLogger(BigDecimalConvertion.class);
 
     public static Optional<BigDecimal> stringToBigDecimal(String string) {
-        log.trace("stringToBigDecimal method.");
-        log.trace("string = " + string);
+        log.trace("stringToBigDecimal method. string = {}", string);
         if (!checkIfStringContainsAtLeastOneDigit(string)) {
             log.trace("String does not contain any digit.");
             return Optional.empty();
@@ -39,14 +38,13 @@ public class BigDecimalConvertion {
     }
 
     public static boolean checkIfStringContainsAtLeastOneDigit(String numberAsString) {
-        log.trace("checkIfStringContainsAtLeastOneDigit method.");
+        log.trace("checkIfStringContainsAtLeastOneDigit method. numberAsString = {}", numberAsString);
         Objects.requireNonNull(numberAsString);
         return numberAsString.matches(".*\\d.*");
     }
 
     public static String bigDecimalToPlainStringIfNotNull(BigDecimal bigDecimal) {
-        log.trace("bigDecimalToPlainStringIfNotNull method.");
-        log.trace("BigDecimal = " + bigDecimal);
+        log.trace("bigDecimalToPlainStringIfNotNull method. bigDecimal = {}", bigDecimal);
         if (Objects.isNull(bigDecimal)) {
             log.trace("BigDecimal = null.");
             return null;

@@ -9,17 +9,16 @@ import pl.ideopolis.webScraperTGE.daneSynoptyczne.dataModel.SynopticDataWrapper;
 @Service
 public class SynopticDataService {
 
-    private final RestTemplate restTemplate = new RestTemplate();
-    private SynopticDataWrapper wrapper;
     private final static Logger log = LoggerFactory.getLogger(SynopticDataWrapper.class);
 
+    private final RestTemplate restTemplate = new RestTemplate();
+    private SynopticDataWrapper wrapper;
 
     public SynopticDataWrapper requestSynopticData() {
         log.trace("requestSynopticData method.");
         String url = "https://danepubliczne.imgw.pl/api/data/synop";
         wrapper = new SynopticDataWrapper();
         final String json = this.restTemplate.getForObject(url, String.class);
-        log.info("JSON downloaded from "+url);
         wrapper.setJsonAsString(json);
         return wrapper;
     }

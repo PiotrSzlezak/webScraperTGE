@@ -8,9 +8,8 @@ import java.time.format.DateTimeFormatter;
 
 public class TimeNow {
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.SSS");
     private final static Logger log = LoggerFactory.getLogger(TimeNow.class);
-
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.SSS");
 
     public LocalDate getCurrentTime() {
         log.trace("LocalDate method.");
@@ -18,14 +17,12 @@ public class TimeNow {
     }
 
     public String print(LocalDate localDate) {
-        log.trace("print method.");
-        log.trace("localDate = " + localDate);
+        log.trace("print method. localDate = {}", localDate);
         return formatter.format(LocalDate.now());
     }
 
     public String print(LocalDate localDate, String pattern) {
-        log.trace("print method.");
-        log.trace("localDate = " + localDate + " ,pattern = " + pattern);
+        log.trace("print method. localDate = {} ,pattern = {}", localDate, pattern);
         return DateTimeFormatter.ofPattern(pattern).format(LocalDate.now());
     }
 

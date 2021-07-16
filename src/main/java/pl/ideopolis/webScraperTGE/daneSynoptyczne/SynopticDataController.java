@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("")
 public class SynopticDataController {
 
-    private SynopticDataService synopticDataService = new SynopticDataService();
     private final static Logger log = LoggerFactory.getLogger(SynopticDataController.class);
 
+    private SynopticDataService synopticDataService = new SynopticDataService();
 
     @GetMapping("")
     public String getSynopticData() {
         log.trace("getSynopticData method.");
+        log.info("Get request at \"/\" received to get synoptic data.");
         return synopticDataService.requestSynopticData().getJsonAsString();
     }
 

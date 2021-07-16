@@ -5,13 +5,12 @@ import org.slf4j.LoggerFactory;
 
 public class SystemProperties {
 
+    private final static Logger log = LoggerFactory.getLogger(SystemProperties.class);
     private static String resourcePath;
     private static final String osName = System.getProperty("os.name");
-    private final static Logger log = LoggerFactory.getLogger(SystemProperties.class);
 
     public static String getPath() {
-        log.trace("getPath method.");
-        log.trace("os name = " + osName);
+        log.trace("getPath method. osName = {}", osName);
         switch (osName) {
             case "Linux":
                 resourcePath = "/media/piotr/Data/Dane synoptyczne/";
