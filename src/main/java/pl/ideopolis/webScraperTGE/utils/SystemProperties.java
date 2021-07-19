@@ -11,15 +11,7 @@ public class SystemProperties {
 
     public static String getPath() {
         log.trace("getPath method. osName = {}", osName);
-        resourcePath = "../webScraperTGE/Synoptic data/";
-//        switch (osName) {
-//            case "Linux":
-//                resourcePath = "/media/piotr/Data/Dane synoptyczne/";
-//                break;
-//            case "Windows 10":
-//                resourcePath = "D:/Dane synoptyczne/";
-//                break;
-//        }
+        resourcePath = System.getProperty("user.home")+"/Synoptic data/";
         return resourcePath;
     }
 }
