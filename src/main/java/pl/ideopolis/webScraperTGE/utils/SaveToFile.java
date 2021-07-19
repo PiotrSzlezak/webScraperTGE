@@ -16,7 +16,9 @@ public class SaveToFile {
 
     public static void saveToFile(String fileName, String path, String text) {
         log.trace("saveToFile method.");
+        log.debug("fileName = {}, path = {}", fileName, path);
         init(path);
+        log.debug("file.path = {}, file.absolutePath = {}", f.getPath(), f.getAbsolutePath());
         checkPath();
         if (!issue) {
             try {
